@@ -8,101 +8,137 @@ class Contador extends StatefulWidget {
 }
 
 class _ContadorState extends State<Contador> {
+  int vitoria = 0;
+  int nospontos = 0;
 
-  int vitoria=0;
-  int nospontos=0;
-
-
-  void nosmais1(){
+  void nosmais1() {
     setState(() {
-      if(nospontos != 11){
+      if (nospontos != 11) {
         nospontos++;
         print(nospontos);
-      }
-      else{
+      } else {
         vitoria++;
-        nospontos=0;
+        nospontos = 0;
       }
-    });    
+    });
   }
 
-  void nosmenos1(){
+  void nosmenos1() {
     setState(() {
-      if(nospontos!=0){
+      if (nospontos != 0) {
         nospontos--;
       }
     });
   }
-//arrumar pq esta chegando a 12 e só depois ele reinicia
-  void nosmais3(){
+
+  void nosmais3() {
     setState(() {
-      if(nospontos < 11){
-        nospontos+=3;
+      if (nospontos <= 7) {
+        nospontos += 3;
         print(nospontos);
-      }
-      else{
+      } else {
         vitoria++;
-        nospontos=0;
+        nospontos = 0;
       }
-    });    
+    });
   }
 
-  void nosmenos3(){
+  void nosmenos3() {
     setState(() {
-      if(nospontos==0||nospontos==1||nospontos==2||nospontos==3) {
-        nospontos=0;
-      }
-      else{
-        nospontos-=3;
+      if (nospontos >= 0 && nospontos <= 3) {
+        nospontos = 0;
+      } else {
+        nospontos -= 3;
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final ButtonStyle btnStyle = ElevatedButton.styleFrom(
+      foregroundColor: Colors.black,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
+      ),
+    );
+
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 26, 83, 28),
+      backgroundColor: const Color.fromARGB(255, 28, 122, 31),
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
         title: Text(
-          "PLACAR DO TRUCO",
+          "♦️PLACAR DO TRUCO♥️",
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // centraliza verticalmente
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text(
-              "Nós",
-              style: TextStyle(
-                fontSize: 28,
-              ),
-            ),
-
-
-            Container(
-              child: 
-              Text(
-                "$nospontos",
-                style: TextStyle(
-                  fontSize: 28,
+            // ======== NÓS ========
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(12),
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      Text(
+                        "Nós",
+                        style: TextStyle(fontSize: 28),
+                      ),
+                      Text(
+                        "$nospontos",
+                        style: TextStyle(fontSize: 28),
+                      ),
+                      Text("Vitórias: $vitoria"),
+                    ],
+                  ),
                 ),
-              ),
+                SizedBox(height: 20),
+                ElevatedButton(onPressed: nosmais1, child: Text("+1"), style: btnStyle),
+                ElevatedButton(onPressed: nosmenos1, child: Text("-1"), style: btnStyle),
+                ElevatedButton(onPressed: nosmais3, child: Text("+3"), style: btnStyle),
+                ElevatedButton(onPressed: nosmenos3, child: Text("-3"), style: btnStyle),
+                SizedBox(height: 120),
+              ],
             ),
 
-            Text("Vitórias: $vitoria"),
-
-            ElevatedButton(onPressed: nosmais1, child: Text("+1")),
-            ElevatedButton(onPressed: nosmenos1, child: Text("-1")),
-            ElevatedButton(onPressed: nosmais3, child: Text("+3")),
-            ElevatedButton(onPressed: nosmenos3, child: Text("-3")),
-
+            // ======== ELES ========
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(12),
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      Text(
+                        "Eles",
+                        style: TextStyle(fontSize: 28),
+                      ),
+                      Text(
+                        "0",
+                        style: TextStyle(fontSize: 28),
+                      ),
+                      Text("Vitórias: 0"),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(onPressed: () {}, child: Text("+1"), style: btnStyle),
+                ElevatedButton(onPressed: () {}, child: Text("-1"), style: btnStyle),
+                ElevatedButton(onPressed: () {}, child: Text("+3"), style: btnStyle),
+                ElevatedButton(onPressed: () {}, child: Text("-3"), style: btnStyle),
+                SizedBox(height: 120),
+              ],
+            ),
           ],
         ),
       ),
