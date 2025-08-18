@@ -8,17 +8,19 @@ class Contador extends StatefulWidget {
 }
 
 class _ContadorState extends State<Contador> {
-  int vitoria = 0;
+  int vitorianos = 0;
+  int vitoriaeles = 0;
   int nospontos = 0;
+  int elespontos = 0;
 
   void nosmais1() {
     setState(() {
       if (nospontos != 11) {
         nospontos++;
-        print(nospontos);
       } else {
-        vitoria++;
+        vitorianos++;
         nospontos = 0;
+        elespontos = 0;
       }
     });
   }
@@ -35,10 +37,10 @@ class _ContadorState extends State<Contador> {
     setState(() {
       if (nospontos <= 7) {
         nospontos += 3;
-        print(nospontos);
       } else {
-        vitoria++;
+        vitorianos++;
         nospontos = 0;
+        elespontos = 0;
       }
     });
   }
@@ -53,92 +55,175 @@ class _ContadorState extends State<Contador> {
     });
   }
 
+  void elesmais1() {
+    setState(() {
+      if (elespontos != 11) {
+        elespontos++;
+      } else {
+        vitoriaeles++;
+        elespontos = 0;
+        nospontos = 0;
+      }
+    });
+  }
+
+  void elesmenos1() {
+    setState(() {
+      if (elespontos != 0) {
+        elespontos--;
+      }
+    });
+  }
+
+  void elesmais3() {
+    setState(() {
+      if (elespontos <= 7) {
+        elespontos += 3;
+      } else {
+        vitoriaeles++;
+        elespontos = 0;
+        nospontos = 0;
+      }
+    });
+  }
+
+  void elesmenos3() {
+    setState(() {
+      if (elespontos >= 0 && elespontos <= 3) {
+        elespontos = 0;
+      } else {
+        elespontos -= 3;
+      }
+    });
+  }
+
+  void zerarP() {
+    setState(() {
+      elespontos = 0;
+      nospontos = 0;
+    });
+  }
+
+  void zerarV() {
+    setState(() {
+      vitoriaeles = 0;
+      vitorianos = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle btnStyle = ElevatedButton.styleFrom(
+    // Botão de somar
+    final ButtonStyle btnStyleGreen = ElevatedButton.styleFrom(
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.green[700],
+      textStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      minimumSize: Size(90, 50),
+    );
+
+    // Botão de subtrair
+    final ButtonStyle btnStyleRed = ElevatedButton.styleFrom(
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.red[700],
+      textStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      minimumSize: Size(90, 50),
+    );
+
+    // Botões de zerar
+    final ButtonStyle btnStyleZerar = ElevatedButton.styleFrom(
       foregroundColor: Colors.black,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
-      ),
+      backgroundColor: Colors.orangeAccent, // laranja
+      textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      minimumSize: Size(150, 50),
     );
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 28, 122, 31),
+      backgroundColor: Color(0xFF0D1B2A),
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
         title: Text(
           "♦️PLACAR DO TRUCO♥️",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
       body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // ======== NÓS ========
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  padding: EdgeInsets.all(12),
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Text(
-                        "Nós",
-                        style: TextStyle(fontSize: 28),
+
+
+                // NÓS
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(12),
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          Text("Nós", style: TextStyle(fontSize: 28, color: const Color.fromARGB(255, 0, 0, 0))),
+                          Text("$nospontos", style: TextStyle(fontSize: 28, color: Colors.black)),
+                          Text("Vitórias: $vitorianos", style: TextStyle(color: Colors.black)),
+                        ],
                       ),
-                      Text(
-                        "$nospontos",
-                        style: TextStyle(fontSize: 28),
-                      ),
-                      Text("Vitórias: $vitoria"),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(onPressed: nosmais1, child: Text("+1"), style: btnStyleGreen),
+                    SizedBox(height: 10),
+                    ElevatedButton(onPressed: nosmenos1, child: Text("-1"), style: btnStyleRed),
+                    SizedBox(height: 10),
+                    ElevatedButton(onPressed: nosmais3, child: Text("+3"), style: btnStyleGreen),
+                    SizedBox(height: 10),
+                    ElevatedButton(onPressed: nosmenos3, child: Text("-3"), style: btnStyleRed),
+                  ],
                 ),
-                SizedBox(height: 20),
-                ElevatedButton(onPressed: nosmais1, child: Text("+1"), style: btnStyle),
-                ElevatedButton(onPressed: nosmenos1, child: Text("-1"), style: btnStyle),
-                ElevatedButton(onPressed: nosmais3, child: Text("+3"), style: btnStyle),
-                ElevatedButton(onPressed: nosmenos3, child: Text("-3"), style: btnStyle),
-                SizedBox(height: 120),
+
+
+                // ELES
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(12),
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          Text("Eles", style: TextStyle(fontSize: 28, color: Colors.red)),
+                          Text("$elespontos", style: TextStyle(fontSize: 28, color: Colors.red)),
+                          Text("Vitórias: $vitoriaeles", style: TextStyle(color: Colors.red)),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(onPressed: elesmais1, child: Text("+1"), style: btnStyleGreen),
+                    SizedBox(height: 10),
+                    ElevatedButton(onPressed: elesmenos1, child: Text("-1"), style: btnStyleRed),
+                    SizedBox(height: 10),
+                    ElevatedButton(onPressed: elesmais3, child: Text("+3"), style: btnStyleGreen),
+                    SizedBox(height: 10),
+                    ElevatedButton(onPressed: elesmenos3, child: Text("-3"), style: btnStyleRed),
+                  ],
+                ),
               ],
             ),
 
-            // ======== ELES ========
+
+            // Botões de zerar
+            SizedBox(height: 60),
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  padding: EdgeInsets.all(12),
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Text(
-                        "Eles",
-                        style: TextStyle(fontSize: 28),
-                      ),
-                      Text(
-                        "0",
-                        style: TextStyle(fontSize: 28),
-                      ),
-                      Text("Vitórias: 0"),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20),
-                ElevatedButton(onPressed: () {}, child: Text("+1"), style: btnStyle),
-                ElevatedButton(onPressed: () {}, child: Text("-1"), style: btnStyle),
-                ElevatedButton(onPressed: () {}, child: Text("+3"), style: btnStyle),
-                ElevatedButton(onPressed: () {}, child: Text("-3"), style: btnStyle),
-                SizedBox(height: 120),
+                ElevatedButton(onPressed: zerarP, child: Text("Zerar Pontos"), style: btnStyleZerar),
+                SizedBox(height: 10),
+                ElevatedButton(onPressed: zerarV, child: Text("Zerar Vitórias"), style: btnStyleZerar),
               ],
-            ),
+            )
           ],
         ),
       ),
