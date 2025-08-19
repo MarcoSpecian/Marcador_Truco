@@ -13,6 +13,15 @@ class _ContadorState extends State<Contador> {
   int nospontos = 0;
   int elespontos = 0;
 
+  //Variavel para a msg do escuro
+  String get escuroMsg {
+  if (elespontos == 11 && nospontos == 11) {
+      return "Mão de Ferro/Escuro";
+    }
+    return "";
+  }
+
+  // Nós pontos
   void nosmais1() {
     setState(() {
       if (nospontos != 11) {
@@ -35,7 +44,7 @@ class _ContadorState extends State<Contador> {
 
   void nosmais3() {
     setState(() {
-      if (nospontos <= 7) {
+      if (nospontos <= 8) {
         nospontos += 3;
       } else {
         vitorianos++;
@@ -55,6 +64,8 @@ class _ContadorState extends State<Contador> {
     });
   }
 
+
+  // Eles pontos
   void elesmais1() {
     setState(() {
       if (elespontos != 11) {
@@ -77,7 +88,7 @@ class _ContadorState extends State<Contador> {
 
   void elesmais3() {
     setState(() {
-      if (elespontos <= 7) {
+      if (elespontos <= 8) {
         elespontos += 3;
       } else {
         vitoriaeles++;
@@ -97,6 +108,8 @@ class _ContadorState extends State<Contador> {
     });
   }
 
+
+  // Zerar pontos e vitórias
   void zerarP() {
     setState(() {
       elespontos = 0;
@@ -154,10 +167,24 @@ class _ContadorState extends State<Contador> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
+            // Texto quando esta 11x11
+            Expanded(
+              child: Center(
+                child: Text(
+                  "$escuroMsg",
+                  style: TextStyle(
+                    fontSize: 28,
+                    color: const Color.fromARGB(255, 0, 255, 170),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-
 
                 // NÓS
                 Column(
@@ -223,7 +250,8 @@ class _ContadorState extends State<Contador> {
                 SizedBox(height: 10),
                 ElevatedButton(onPressed: zerarV, child: Text("Zerar Vitórias"), style: btnStyleZerar),
               ],
-            )
+            ),
+            SizedBox(height: 120,),
           ],
         ),
       ),
