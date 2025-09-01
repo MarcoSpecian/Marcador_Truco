@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:contador_truco/telas/regras.dart';
 
 class Contador extends StatefulWidget {
   Contador({super.key});
@@ -12,11 +13,13 @@ class _ContadorState extends State<Contador> {
   int vitoriaeles = 0;
   int nospontos = 0;
   int elespontos = 0;
-
   //Variavel para a msg do escuro
   String get escuroMsg {
-  if (elespontos == 11 && nospontos == 11) {
+    if (elespontos == 11 && nospontos == 11) {
       return "Mão de Ferro/Escuro";
+    } else if ((elespontos == 11 && nospontos != 11) ||
+        (elespontos != 11 && nospontos == 11)) {
+      return "Mão de 11";
     }
     return "";
   }
@@ -64,7 +67,6 @@ class _ContadorState extends State<Contador> {
     });
   }
 
-
   // Eles pontos
   void elesmais1() {
     setState(() {
@@ -107,7 +109,6 @@ class _ContadorState extends State<Contador> {
       }
     });
   }
-
 
   // Zerar pontos e vitórias
   void zerarP() {
@@ -157,17 +158,22 @@ class _ContadorState extends State<Contador> {
       backgroundColor: Color(0xFF0D1B2A),
       appBar: AppBar(
         backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
         title: Text(
           "♦️PLACAR DO TRUCO♥️",
-          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
+      drawer: const NavigationDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             // Texto quando esta 11x11
             Expanded(
               child: Center(
@@ -185,7 +191,6 @@ class _ContadorState extends State<Contador> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-
                 // NÓS
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -195,23 +200,50 @@ class _ContadorState extends State<Contador> {
                       color: Colors.white,
                       child: Column(
                         children: [
-                          Text("Nós", style: TextStyle(fontSize: 28, color: const Color.fromARGB(255, 0, 0, 0))),
-                          Text("$nospontos", style: TextStyle(fontSize: 28, color: Colors.black)),
-                          Text("Vitórias: $vitorianos", style: TextStyle(color: Colors.black)),
+                          Text(
+                            "Nós",
+                            style: TextStyle(
+                              fontSize: 28,
+                              color: const Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ),
+                          Text(
+                            "$nospontos",
+                            style: TextStyle(fontSize: 28, color: Colors.black),
+                          ),
+                          Text(
+                            "Vitórias: $vitorianos",
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ],
                       ),
                     ),
                     SizedBox(height: 20),
-                    ElevatedButton(onPressed: nosmais1, child: Text("+1"), style: btnStyleGreen),
+                    ElevatedButton(
+                      onPressed: nosmais1,
+                      child: Text("+1"),
+                      style: btnStyleGreen,
+                    ),
                     SizedBox(height: 10),
-                    ElevatedButton(onPressed: nosmenos1, child: Text("-1"), style: btnStyleRed),
+                    ElevatedButton(
+                      onPressed: nosmenos1,
+                      child: Text("-1"),
+                      style: btnStyleRed,
+                    ),
                     SizedBox(height: 10),
-                    ElevatedButton(onPressed: nosmais3, child: Text("+3"), style: btnStyleGreen),
+                    ElevatedButton(
+                      onPressed: nosmais3,
+                      child: Text("+3"),
+                      style: btnStyleGreen,
+                    ),
                     SizedBox(height: 10),
-                    ElevatedButton(onPressed: nosmenos3, child: Text("-3"), style: btnStyleRed),
+                    ElevatedButton(
+                      onPressed: nosmenos3,
+                      child: Text("-3"),
+                      style: btnStyleRed,
+                    ),
                   ],
                 ),
-
 
                 // ELES
                 Column(
@@ -222,39 +254,127 @@ class _ContadorState extends State<Contador> {
                       color: Colors.white,
                       child: Column(
                         children: [
-                          Text("Eles", style: TextStyle(fontSize: 28, color: Colors.red)),
-                          Text("$elespontos", style: TextStyle(fontSize: 28, color: Colors.red)),
-                          Text("Vitórias: $vitoriaeles", style: TextStyle(color: Colors.red)),
+                          Text(
+                            "Eles",
+                            style: TextStyle(fontSize: 28, color: Colors.red),
+                          ),
+                          Text(
+                            "$elespontos",
+                            style: TextStyle(fontSize: 28, color: Colors.red),
+                          ),
+                          Text(
+                            "Vitórias: $vitoriaeles",
+                            style: TextStyle(color: Colors.red),
+                          ),
                         ],
                       ),
                     ),
                     SizedBox(height: 20),
-                    ElevatedButton(onPressed: elesmais1, child: Text("+1"), style: btnStyleGreen),
+                    ElevatedButton(
+                      onPressed: elesmais1,
+                      child: Text("+1"),
+                      style: btnStyleGreen,
+                    ),
                     SizedBox(height: 10),
-                    ElevatedButton(onPressed: elesmenos1, child: Text("-1"), style: btnStyleRed),
+                    ElevatedButton(
+                      onPressed: elesmenos1,
+                      child: Text("-1"),
+                      style: btnStyleRed,
+                    ),
                     SizedBox(height: 10),
-                    ElevatedButton(onPressed: elesmais3, child: Text("+3"), style: btnStyleGreen),
+                    ElevatedButton(
+                      onPressed: elesmais3,
+                      child: Text("+3"),
+                      style: btnStyleGreen,
+                    ),
                     SizedBox(height: 10),
-                    ElevatedButton(onPressed: elesmenos3, child: Text("-3"), style: btnStyleRed),
+                    ElevatedButton(
+                      onPressed: elesmenos3,
+                      child: Text("-3"),
+                      style: btnStyleRed,
+                    ),
                   ],
                 ),
               ],
             ),
 
-
             // Botões de zerar
             SizedBox(height: 60),
             Column(
               children: [
-                ElevatedButton(onPressed: zerarP, child: Text("Zerar Pontos"), style: btnStyleZerar),
+                ElevatedButton(
+                  onPressed: zerarP,
+                  child: Text("Zerar Pontos"),
+                  style: btnStyleZerar,
+                ),
                 SizedBox(height: 10),
-                ElevatedButton(onPressed: zerarV, child: Text("Zerar Vitórias"), style: btnStyleZerar),
+                ElevatedButton(
+                  onPressed: zerarV,
+                  child: Text("Zerar Vitórias"),
+                  style: btnStyleZerar,
+                ),
               ],
             ),
-            SizedBox(height: 120,),
+            SizedBox(height: 120),
           ],
         ),
       ),
     );
   }
+}
+
+class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Drawer(
+    child: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[buildHeader(context), buildMenuItems(context)],
+      ),
+    ),
+  );
+
+  Widget buildHeader(BuildContext context) => Container(
+    color: Colors.black,
+    padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+  );
+  Widget buildMenuItems(BuildContext context) => Container(
+    color: Colors.black,
+    height: 945, // deixar o expanded com fundo preto
+    padding: EdgeInsets.all(24),
+    child: Wrap(
+      runSpacing: 16,
+      children: [
+        ListTile(
+          leading: Icon(Icons.home, color: Colors.white), // <- branco também
+          title: Text(
+            "Home",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onTap: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (context) => Contador()));
+          },
+        ),
+        ListTile(
+          leading: Icon(
+            Icons.menu_book,
+            color: Colors.white,
+          ), // <- branco também
+          title: Text(
+            "Regras",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onTap: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (context) => RegrasPage()));
+          },
+        ),
+      ],
+    ),
+  );
 }
